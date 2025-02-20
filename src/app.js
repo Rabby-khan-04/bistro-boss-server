@@ -11,7 +11,9 @@ app.use(cookieParser());
 
 // Routes Import
 import menuRouter from "./routes/menu.routes.js";
+import reviewRouter from "./routes/review.routes.js";
 
 app.use("/api/v1/menu", menuRouter);
+app.use("/api/v1/review", reviewRouter);
 
 export default app;

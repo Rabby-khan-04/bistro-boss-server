@@ -18,8 +18,6 @@ const getAllMenu = asyncHandler(async (req, res) => {
     query = { category };
   }
 
-  console.log(query);
-
   const menu = await menuCollection
     .find(query)
     .skip(skip)
