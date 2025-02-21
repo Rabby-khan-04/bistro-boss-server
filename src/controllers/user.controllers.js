@@ -42,6 +42,21 @@ const deleteUser = asyncHandler(async (req, res) => {
     .json(status.OK, result, "User deleted successfully!!");
 });
 
-const UserControllers = { createAUser, getAllUsers, deleteUser };
+const makeAdmin = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const query = { _id: new ObjectId(id) };
+  const updatedDoc = {
+    $set: {
+      role: "admin",
+    },
+  };
+  const result = await userCollection.updateOne(query, updatedDoc);
+
+  return res
+    .status(status.OK)
+    .json(new ApiResponse(status.OK, result, "User role updated successfully"));
+});
+
+const UserControllers = { createAUser, getAllUsers, deleteUser, makeAdmin };
 
 export default UserControllers;
