@@ -4,6 +4,8 @@ import asyncHandler from "../utils/asyncHandler.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import ApiError from "../utils/ApiError.js";
 import { ObjectId } from "mongodb";
+import jwt from "jsonwebtoken";
+import { cookieOptions } from "../constants.js";
 
 const userCollection = database.collection("user");
 
@@ -57,6 +59,32 @@ const makeAdmin = asyncHandler(async (req, res) => {
     .json(new ApiResponse(status.OK, result, "User role updated successfully"));
 });
 
-const UserControllers = { createAUser, getAllUsers, deleteUser, makeAdmin };
+const issueJWT = asyncHandler(async (req, res) => {
+  const user = req.body;
+  const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: process.env.ACCESS_TOKEN_EXPIRE,
+  });
+
+  return res
+    .status(status.OK)
+    .cookie("token", token, cookieOptions)
+    .json(new ApiResponse(status.OK, token, "Issued token"));
+});
+
+const logoutUser = asyncHandler(async (req, res) => {
+  return res
+    .status(status.OK)
+    .clearCookie("token", { ...cookieOptions, maxAge: 0 })
+    .json(new ApiResponse(status.OK, { success: true }, "Success"));
+});
+
+const UserControllers = {
+  createAUser,
+  getAllUsers,
+  deleteUser,
+  makeAdmin,
+  issueJWT,
+  logoutUser,
+};
 
 export default UserControllers;
