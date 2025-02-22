@@ -2,6 +2,7 @@ import status from "http-status";
 import { database } from "../db/index.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import ApiResponse from "../utils/ApiResponse.js";
+import { ObjectId } from "mongodb";
 
 const menuCollection = database.collection("menu");
 
@@ -55,6 +56,20 @@ const addAMenuItem = asyncHandler(async (req, res) => {
     .json(new ApiResponse(status.OK, result, "Product added successfully!!"));
 });
 
-const MenuControllers = { getAllMenu, getMenuCount, addAMenuItem };
+const deleteMenuItem = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const query = { _id: new ObjectId(id) };
+  const result = await menuCollection.deleteOne(query);
+  return res
+    .status(status.OK)
+    .json(new ApiResponse(status.OK, result, "Product deleted successfully!!"));
+});
+
+const MenuControllers = {
+  getAllMenu,
+  getMenuCount,
+  addAMenuItem,
+  deleteMenuItem,
+};
 
 export default MenuControllers;

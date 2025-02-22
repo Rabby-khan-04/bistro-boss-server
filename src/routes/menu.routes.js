@@ -14,4 +14,12 @@ router
     MenuControllers.addAMenuItem
   );
 
+router
+  .route("/menu/:id")
+  .delete(
+    UserMiddlewares.verifyJWT,
+    UserMiddlewares.verifyAdmin,
+    MenuControllers.deleteMenuItem
+  );
+
 export default router;
