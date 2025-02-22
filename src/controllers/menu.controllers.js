@@ -61,10 +61,42 @@ const deleteMenuItem = asyncHandler(async (req, res) => {
   const query = { _id: new ObjectId(id) };
   const result = await menuCollection.deleteOne(query);
 
-  console.log(result);
   return res
     .status(status.OK)
     .json(new ApiResponse(status.OK, result, "Product deleted successfully!!"));
+});
+
+const getAMenuData = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const query = { _id: id };
+  const menu = await menuCollection.findOne(query);
+  return res
+    .status(status.OK)
+    .json(new ApiResponse(status.OK, menu, "Product fetched successfully!!"));
+});
+
+const updateMenuItem = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  console.log(req.params);
+  const { name, price, recipe, category, image } = req.body;
+  const query = { _id: id };
+  const updatedDco = {
+    $set: {
+      name,
+      price,
+      recipe,
+      category,
+      image,
+    },
+  };
+
+  const result = await menuCollection.updateOne(query, updatedDco);
+
+  console.log(result);
+
+  return res
+    .status(status.OK)
+    .json(new ApiResponse(status.OK, result, "Product updated successfully!!"));
 });
 
 const MenuControllers = {
@@ -72,6 +104,8 @@ const MenuControllers = {
   getMenuCount,
   addAMenuItem,
   deleteMenuItem,
+  getAMenuData,
+  updateMenuItem,
 };
 
 export default MenuControllers;

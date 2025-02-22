@@ -7,19 +7,21 @@ const router = Router();
 router.route("/menu/:category").get(MenuControllers.getAllMenu);
 router.route("/count/:category").get(MenuControllers.getMenuCount);
 router
-  .route("/menu")
-  .post(
-    UserMiddlewares.verifyJWT,
-    UserMiddlewares.verifyAdmin,
-    MenuControllers.addAMenuItem
-  );
-
-router
   .route("/menu/:id")
   .delete(
     UserMiddlewares.verifyJWT,
     UserMiddlewares.verifyAdmin,
     MenuControllers.deleteMenuItem
+  );
+
+router.route("/menu-item/:id").get(MenuControllers.getAMenuData);
+router.route("/menu-item/:id").patch(MenuControllers.updateMenuItem);
+router
+  .route("/menu")
+  .post(
+    UserMiddlewares.verifyJWT,
+    UserMiddlewares.verifyAdmin,
+    MenuControllers.addAMenuItem
   );
 
 export default router;
