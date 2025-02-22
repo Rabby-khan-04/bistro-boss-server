@@ -7,7 +7,7 @@ import { ObjectId } from "mongodb";
 import jwt from "jsonwebtoken";
 import { cookieOptions } from "../constants.js";
 
-const userCollection = database.collection("user");
+export const userCollection = database.collection("user");
 
 const createAUser = asyncHandler(async (req, res) => {
   const userInfo = req.body;
@@ -78,6 +78,24 @@ const logoutUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(status.OK, { success: true }, "Success"));
 });
 
+const isAdmin = asyncHandler(async (req, res) => {
+  const { email } = req.params;
+  if (email !== req.user.email) {
+    throw new ApiError(status.UNAUTHORIZED, "Unauthorized Access!!");
+  }
+  const query = { email };
+  const user = await userCollection.findOne(query);
+
+  let admin = false;
+  if (user) {
+    admin = user?.role === "admin";
+  }
+
+  return res
+    .status(status.OK)
+    .json(new ApiResponse(status.OK, admin, "Admin checked successfully!!"));
+});
+
 const UserControllers = {
   createAUser,
   getAllUsers,
@@ -85,6 +103,7 @@ const UserControllers = {
   makeAdmin,
   issueJWT,
   logoutUser,
+  isAdmin,
 };
 
 export default UserControllers;

@@ -46,6 +46,15 @@ const getMenuCount = asyncHandler(async (req, res) => {
     );
 });
 
-const MenuControllers = { getAllMenu, getMenuCount };
+const addAMenuItem = asyncHandler(async (req, res) => {
+  const menuItem = req.body;
+  const result = await menuCollection.insertOne(menuItem);
+
+  return res
+    .status(status.OK)
+    .json(new ApiResponse(status.OK, result, "Product added successfully!!"));
+});
+
+const MenuControllers = { getAllMenu, getMenuCount, addAMenuItem };
 
 export default MenuControllers;

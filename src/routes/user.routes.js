@@ -7,10 +7,29 @@ const router = Router();
 router.route("/user").post(UserControllers.createAUser);
 router
   .route("/user")
-  .get(UserMiddlewares.verifyJWT, UserControllers.getAllUsers);
-router.route("/user/:id").delete(UserControllers.deleteUser);
-router.route("/admin/:id").patch(UserControllers.makeAdmin);
+  .get(
+    UserMiddlewares.verifyJWT,
+    UserMiddlewares.verifyAdmin,
+    UserControllers.getAllUsers
+  );
+router
+  .route("/user/:id")
+  .delete(
+    UserMiddlewares.verifyJWT,
+    UserMiddlewares.verifyAdmin,
+    UserControllers.deleteUser
+  );
+router
+  .route("/admin/:id")
+  .patch(
+    UserMiddlewares.verifyJWT,
+    UserMiddlewares.verifyAdmin,
+    UserControllers.makeAdmin
+  );
 router.route("/jwt").post(UserControllers.issueJWT);
 router.route("/logout").post(UserControllers.logoutUser);
+router
+  .route("/admin/:email")
+  .get(UserMiddlewares.verifyJWT, UserControllers.isAdmin);
 
 export default router;
