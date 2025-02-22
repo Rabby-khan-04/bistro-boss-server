@@ -60,6 +60,8 @@ const deleteMenuItem = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const query = { _id: new ObjectId(id) };
   const result = await menuCollection.deleteOne(query);
+
+  console.log(result);
   return res
     .status(status.OK)
     .json(new ApiResponse(status.OK, result, "Product deleted successfully!!"));
