@@ -14,10 +14,12 @@ import menuRouter from "./routes/menu.routes.js";
 import reviewRouter from "./routes/review.routes.js";
 import cartRouter from "./routes/cart.routes.js";
 import userRouter from "./routes/user.routes.js";
+import paymentRouter from "./routes/payment.routes.js";
 
 app.use("/api/v1/menu", menuRouter);
 app.use("/api/v1/reviews", reviewRouter);
 app.use("/api/v1/carts", cartRouter);
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/payment", paymentRouter);
 
 export default app;
