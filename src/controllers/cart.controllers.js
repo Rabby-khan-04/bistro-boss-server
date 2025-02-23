@@ -4,7 +4,7 @@ import asyncHandler from "../utils/asyncHandler.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import { ObjectId } from "mongodb";
 
-const cartCollection = database.collection("carts");
+export const cartCollection = database.collection("carts");
 
 const addToCart = asyncHandler(async (req, res) => {
   const cartItem = req.body;
