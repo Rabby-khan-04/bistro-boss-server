@@ -1,6 +1,5 @@
 import Stripe from "stripe";
 import asyncHandler from "../utils/asyncHandler.js";
-import { stripe } from "../index.js";
 import status from "http-status";
 import ApiResponse from "../utils/ApiResponse.js";
 import { database } from "../db/index.js";
@@ -9,6 +8,7 @@ import { cartCollection } from "./cart.controllers.js";
 import ApiError from "../utils/ApiError.js";
 
 export const paymentCollection = database.collection("orders");
+export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const createPayment = asyncHandler(async (req, res) => {
   const { price } = req.body;
