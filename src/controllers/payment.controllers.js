@@ -8,7 +8,7 @@ import { ObjectId } from "mongodb";
 import { cartCollection } from "./cart.controllers.js";
 import ApiError from "../utils/ApiError.js";
 
-const paymentCollection = database.collection("orders");
+export const paymentCollection = database.collection("orders");
 
 const createPayment = asyncHandler(async (req, res) => {
   const { price } = req.body;

@@ -32,4 +32,12 @@ router
   .route("/admin/:email")
   .get(UserMiddlewares.verifyJWT, UserControllers.isAdmin);
 
+router
+  .route("/admin-stats")
+  .get(
+    UserMiddlewares.verifyJWT,
+    UserMiddlewares.verifyAdmin,
+    UserControllers.getAdminStats
+  );
+
 export default router;

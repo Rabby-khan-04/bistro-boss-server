@@ -4,7 +4,7 @@ import asyncHandler from "../utils/asyncHandler.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import { ObjectId } from "mongodb";
 
-const menuCollection = database.collection("menu");
+export const menuCollection = database.collection("menu");
 
 const getAllMenu = asyncHandler(async (req, res) => {
   const { category } = req.params;
